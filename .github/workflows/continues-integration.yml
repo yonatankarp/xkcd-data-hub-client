@@ -9,20 +9,8 @@ on:
       - main
 
 jobs:
-  build:
-
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        include:
-          - os: ubuntu-latest
-            platform: linux
-          - os: macos-latest
-            platform: macos
-          - os: windows-latest
-            platform: windows
-
+  build-android:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,53 +21,93 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-#      - name: Set up Kotlin
-#        uses: fwilhe2/setup-kotlin@v1
-
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
+          api-level: 35
 
-      - name: Build and test Android
-        if: matrix.platform == 'linux'
-        run: ./gradlew build connectedAndroidTest
+      - name: Build Android
+        run: ./gradlew assembleDebug
 
-      - name: Build and test iOS
-        if: matrix.platform == 'macos'
+      - name: Test Android
+        run: ./gradlew testDebugUnitTest
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build iOS
+        run: ./gradlew iosX64Binaries
+
+      - name: Test iOS
         run: ./gradlew iosTest
 
-      - name: Build and test Desktop (macOS)
-        if: matrix.platform == 'macos'
-        run: ./gradlew macosX64Test
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Build and test Desktop (Linux)
-        if: matrix.platform == 'linux'
-        run: ./gradlew linuxX64Test
+      - name: Build macOS
+        run: ./gradlew macosX64Binaries
 
-      - name: Build and test Desktop (Windows)
-        if: matrix.platform == 'windows'
-        run: ./gradlew mingwX64Test
+      - name: Test macOS
+        run: ./gradlew macosTest
 
-      - name: Build and test WASM
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential libssl-dev
+
+      - name: Build Linux
+        run: ./gradlew linuxX64Binaries
+
+      - name: Test Linux
+        run: ./gradlew linuxTest
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up MSVC
+        run: |
+          choco install visualstudio2019community
+          choco install visualstudio2019buildtools
+          choco install visualstudio2019-workload-vctools
+
+      - name: Build Windows
+        run: ./gradlew mingwX64Binaries
+
+      - name: Test Windows
+        run: ./gradlew mingwTest
+
+  build-wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Emscripten
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+
+      - name: Build WASM
+        run: ./gradlew wasm32Binaries
+
+      - name: Test WASM
         run: ./gradlew wasmTest
-
-      - name: Build and package Desktop for macOS
-        if: matrix.platform == 'macos'
-        run: ./gradlew packageMacosX64App
-
-      - name: Build and package Desktop for Linux
-        if: matrix.platform == 'linux'
-        run: ./gradlew packageLinuxX64App
-
-      - name: Build and package Desktop for Windows
-        if: matrix.platform == 'windows'
-        run: ./gradlew packageMingwX64App
-
-      - name: Build and package Web (WASM)
-        run: ./gradlew assembleJsWasm

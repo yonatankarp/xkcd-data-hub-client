@@ -1,0 +1,85 @@
+name: Kotlin Multiplatform CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: macos-latest
+            platform: macos
+          - os: windows-latest
+            platform: windows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+#      - name: Set up Kotlin
+#        uses: fwilhe2/setup-kotlin@v1
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Build and test Android
+        if: matrix.platform == 'linux'
+        run: ./gradlew build connectedAndroidTest
+
+      - name: Build and test iOS
+        if: matrix.platform == 'macos'
+        run: ./gradlew iosTest
+
+      - name: Build and test Desktop (macOS)
+        if: matrix.platform == 'macos'
+        run: ./gradlew macosX64Test
+
+      - name: Build and test Desktop (Linux)
+        if: matrix.platform == 'linux'
+        run: ./gradlew linuxX64Test
+
+      - name: Build and test Desktop (Windows)
+        if: matrix.platform == 'windows'
+        run: ./gradlew mingwX64Test
+
+      - name: Build and test WASM
+        run: ./gradlew wasmTest
+
+      - name: Build and package Desktop for macOS
+        if: matrix.platform == 'macos'
+        run: ./gradlew packageMacosX64App
+
+      - name: Build and package Desktop for Linux
+        if: matrix.platform == 'linux'
+        run: ./gradlew packageLinuxX64App
+
+      - name: Build and package Desktop for Windows
+        if: matrix.platform == 'windows'
+        run: ./gradlew packageMingwX64App
+
+      - name: Build and package Web (WASM)
+        run: ./gradlew assembleJsWasm

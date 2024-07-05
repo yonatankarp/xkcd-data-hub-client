@@ -1,0 +1,65 @@
+# General
+.DS_Store
+.idea
+*.iml
+.gradle
+/local.properties
+/.idea
+/.classpath
+/.project
+/.settings
+/.loadpath
+/build
+out
+/.caches
+.gradle/
+build/
+.idea/
+local.properties
+gradle-app.setting
+.kotlin
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+*.so
+*.jar
+*.war
+*.ear
+*.keystore
+/build/
+generated/
+captures/
+output.json
+
+# iOS/macOS
+*.mode1v3
+*.mode2v3
+*.pbxuser
+*.perspectivev3
+xcuserdata
+*.xccheckout
+*.xcodeproj
+*.xcworkspace
+*.xcuserdatad
+*.moved-aside
+*.xcscmblueprint
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Desktop
+bin/
+out/
+lib/
+
+# WebAssembly
+*.wasm
+*.js
+*.html
+node_modules/
+dist/

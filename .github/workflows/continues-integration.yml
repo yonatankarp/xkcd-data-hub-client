@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.job }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
@@ -69,7 +73,7 @@ jobs:
         run: ./gradlew macosX64Binaries
 
       - name: Test macOS
-        run: ./gradlew macosTest
+        run: ./gradlew macosX64Test
 
   build-linux:
     runs-on: ubuntu-latest
@@ -90,7 +94,7 @@ jobs:
         run: ./gradlew linuxX64Binaries
 
       - name: Test Linux
-        run: ./gradlew linuxTest
+        run: ./gradlew linuxX64Test
 
   build-windows:
     runs-on: windows-latest
@@ -114,7 +118,7 @@ jobs:
         run: ./gradlew mingwX64Binaries
 
       - name: Test Windows
-        run: ./gradlew mingwTest
+        run: ./gradlew mingwX64Test
 
   build-wasm:
     runs-on: ubuntu-latest

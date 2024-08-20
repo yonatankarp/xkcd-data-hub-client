@@ -42,7 +42,7 @@ dependencyResolutionManagement {
 }
 
 include(
-    ":feature:recent:data"
+    ":feature:recent:data",
 )
 
 buildCache {

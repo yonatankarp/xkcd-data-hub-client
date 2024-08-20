@@ -1,5 +1,6 @@
 import tech.antibytes.gradle.dependency.helper.addCustomRepositories
 import tech.antibytes.gradle.dependency.helper.ensureKotlinVersion
+import tech.antibytes.gradle.project.config.quality.SonarConfiguration
 import tech.antibytes.gradle.project.config.repositories.Repositories.projectRepositories
 
 plugins {
@@ -7,6 +8,10 @@ plugins {
 
     alias(antibytesCatalog.plugins.gradle.antibytes.dependencyHelper)
     alias(antibytesCatalog.plugins.gradle.antibytes.quality)
+}
+
+antibytesQuality {
+    qualityGate.set(SonarConfiguration(project).configuration)
 }
 
 allprojects {

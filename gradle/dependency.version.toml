@@ -1,0 +1,30 @@
+[versions]
+minSdk = "21"
+openapi = "7.6.0"
+jb-viewmodel = "2.8.0"
+timber = "5.0.1"
+kfixture = "0.4.0-SNAPSHOT"
+testUtils = "86ec4d6"
+kmock = "0.3.0-rc08-SNAPSHOT"
+coil = "3.0.0-alpha06"
+
+
+[libraries]
+jb-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jb-viewmodel" }
+kfixture-core = { module  = "tech.antibytes.kfixture:core", version.ref = "kfixture" }
+kfixture-datetime = { module = "tech.antibytes.kfixture:ktx-datetime", version.ref = "kfixture" }
+testUtils-core = { module  = "tech.antibytes.test-utils-kmp:test-utils", version.ref = "testUtils" }
+testUtils-coroutine = { module  = "tech.antibytes.test-utils-kmp:test-utils-coroutine", version.ref = "testUtils" }
+testUtils-annotations = { module  = "tech.antibytes.test-utils-kmp:test-utils-annotations-junit5", version.ref = "testUtils" }
+testUtils-resourceloader = { module = "tech.antibytes.test-utils-kmp:test-utils-resourceloader", version.ref = "testUtils" }
+testUtils-ktor = { module = "tech.antibytes.test-utils-kmp:test-utils-ktor", version.ref = "testUtils" }
+kmock = { module = "tech.antibytes.kmock:kmock", version.ref = "kmock"}
+coil-core = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil" }
+coil-test = { module = "io.coil-ktcoil3:coil-test", version.ref = "coil" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+[plugins]
+openapi = { id = "org.openapi.generator", version.ref = "openapi" }
+kmock = { id = "tech.antibytes.kmock.kmock-gradle", version.ref = "kmock" }

@@ -7,5 +7,5 @@
 package tech.antibytes.gradle.project.config.database
 
 object SqlDelight {
-    val databaseName = "xkcdDB"
+    val databaseName = "xkcddatahubDB"
 }

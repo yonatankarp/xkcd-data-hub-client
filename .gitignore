@@ -1,65 +1,53 @@
-# General
-.DS_Store
-.idea
-*.iml
-.gradle
-/local.properties
-/.idea
-/.classpath
-/.project
-/.settings
-/.loadpath
+# Built application files
 /build
-out
-/.caches
+/*/build
+
+# Gradle
 .gradle/
 build/
-.idea/
 local.properties
-gradle-app.setting
-.kotlin
+build-cache/
 
-# Android
-*.apk
-*.ap_
-*.dex
-*.class
-*.so
-*.jar
-*.war
-*.ear
-*.keystore
-/build/
-generated/
-captures/
-output.json
+# IDEA/Android Studio ignores
+*iml
+.idea/*
 
-# iOS/macOS
-*.mode1v3
-*.mode2v3
-*.pbxuser
-*.perspectivev3
-xcuserdata
-*.xccheckout
-*.xcodeproj
-*.xcworkspace
-*.xcuserdatad
-*.moved-aside
-*.xcscmblueprint
-DerivedData/
-*.hmap
-*.ipa
-*.dSYM.zip
-*.dSYM
+# Local configuration file (sdk path, etc)
+local.properties
 
-# Desktop
-bin/
-out/
-lib/
+# Gradle generated files
+.gradle/
 
-# WebAssembly
-*.wasm
-*.js
-*.html
-node_modules/
-dist/
+# Signing files
+.signing/
+
+# User-specific configurations
+.idea/libraries/
+.idea/caches/build_file_checksums.ser
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+*.iml
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editors
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -41,6 +41,9 @@ dependencyResolutionManagement {
     }
 }
 
+include(
+    ":feature:recent:data"
+)
 
 buildCache {
     fullCache(rootDir)
